@@ -7,10 +7,10 @@ services:
         environment:
             discovery.type: single-node
     logstash:
-        image: "docker.elastic.co/logstash/logstash-oss:6.3.0"
+        build: ./logstash
         volumes:
-            - ./pipelines:/usr/share/logstash/pipeline
-            - ./jdbc-drivers:/opt/jdbc-drivers
+            - ./logstash/pipelines:/usr/share/logstash/pipeline
+            - ./logstash/jdbc-drivers:/opt/jdbc-drivers
     kibana:
         image: "kibana:7.14.2"
         ports:
