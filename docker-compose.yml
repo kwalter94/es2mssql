@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+    elasticsearch:
+        image: "elasticsearch:7.14.2"
+        ports:
+            - "9200:9200"
+        environment:
+            discovery.type: single-node
+    logstash:
+        image: "docker.elastic.co/logstash/logstash-oss:6.3.0"
+        volumes:
+            - ./pipelines:/usr/share/logstash/pipeline
+            - ./jdbc-drivers:/opt/jdbc-drivers
+    kibana:
+        image: "kibana:7.14.2"
+        ports:
+            - "5601:5601"
+        environment:
+            ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    sqlserver:
+        image: "mcr.microsoft.com/mssql/server:2019-latest"
+        user: root
+        ports:
+            - "9999:1433"
+        environment:
+            MSSQL_SA_PASSWORD: P@ssw0rd
+            ACCEPT_EULA: Y
+        volumes:
+            - ./sqlserver/data:/var/opt/mssql/data
