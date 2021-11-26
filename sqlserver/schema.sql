@@ -5,5 +5,7 @@ CREATE TABLE Customers (
     CustomerFirstName VARCHAR(64),
     CustomerLastName VARCHAR(64),
     CustomerGender VARCHAR(12)
-)
+);
+
+GO;
 
