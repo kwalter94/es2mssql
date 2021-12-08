@@ -6,12 +6,15 @@ services:
             - "9200:9200"
         environment:
             discovery.type: single-node
-            ES_JAVA_OPTS: -Xms500m -Xmx1g
+            ES_JAVA_OPTS: -Xms128m -Xmx512m
     logstash:
         build: ./logstash
+        ports:
+            - "5000:5000"
         volumes:
             - ./logstash/pipelines:/usr/share/logstash/pipeline
-            - ./logstash/jdbc-drivers:/opt/jdbc-drivers
+        environment:
+          JDBC_CONNECTION: ${JDBC_CONNECTION}
     kibana:
         image: "kibana:7.14.2"
         ports:
@@ -24,7 +27,7 @@ services:
         ports:
             - "9999:1433"
         environment:
-            MSSQL_SA_PASSWORD: P@ssw0rd
+            MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
             ACCEPT_EULA: Y
         volumes:
             - ./sqlserver/data:/var/opt/mssql/data
